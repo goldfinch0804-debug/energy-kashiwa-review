@@ -1,0 +1,478 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Energy Kashiwa - Feedback & Review</title>
+  <style>
+    :root{
+      --bg1:#0f1923; --bg2:#1a2a3a;
+      --card: rgba(255,255,255,.05);
+      --line: rgba(255,255,255,.10);
+      --muted:#93a4b5;
+      --text:#e8e8e8;
+      --accent1:#ff6b35;
+      --accent2:#f7c948;
+      --ok:#2ecc71;
+      --warn:#ff6b6b;
+      font-family: -apple-system, BlinkMacSystemFont, "Hiragino Sans", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+    }
+    body{
+      margin:0; color:var(--text);
+      background: linear-gradient(135deg,var(--bg1),var(--bg2),var(--bg1));
+      min-height:100vh;
+    }
+    .wrap{ max-width:520px; margin:0 auto; padding:24px 16px 40px; position:relative; }
+    .brand{
+      text-align:center; margin:8px 0 20px;
+    }
+    .brand .t{
+      font-weight:900; font-size:26px; letter-spacing:-.5px;
+      background: linear-gradient(135deg,var(--accent1),var(--accent2));
+      -webkit-background-clip:text; background-clip:text; color:transparent;
+    }
+    .brand .s{ color:var(--muted); font-size:12px; letter-spacing:.18em; margin-top:6px;}
+    .bar{ display:flex; gap:8px; padding:0 16px; margin:16px 0 18px; }
+    .bar i{ flex:1; height:3px; border-radius:2px; background: rgba(255,255,255,.10); }
+    .bar i.on{ background: linear-gradient(90deg,var(--accent1),var(--accent2)); }
+    .card{
+      background: var(--card);
+      border:1px solid var(--line);
+      border-radius:14px;
+      padding:18px;
+      box-shadow: 0 10px 24px rgba(0,0,0,.20);
+    }
+    h2{ margin:0 0 6px; font-size:18px; }
+    p{ margin:0 0 14px; color:var(--muted); font-size:13px; line-height:1.7; }
+    .stars{ display:flex; gap:10px; justify-content:center; padding:12px 0 6px; }
+    .starbtn{
+      width:44px; height:44px; border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.04);
+      color:#fff; font-size:18px; font-weight:800;
+      cursor:pointer;
+      transition:.15s transform ease, .15s background ease, .15s border-color ease;
+    }
+    .starbtn:hover{ transform: translateY(-1px); }
+    .starbtn.on{
+      border-color: rgba(255,107,53,.60);
+      background: rgba(255,107,53,.12);
+    }
+    .grid{ display:flex; flex-direction:column; gap:8px; margin-top:10px; }
+    .chip{
+      display:flex; align-items:center; gap:10px;
+      padding:12px 12px; border-radius:12px;
+      border:1px solid rgba(255,255,255,.08);
+      background: rgba(255,255,255,.03);
+      cursor:pointer;
+      user-select:none;
+    }
+    .chip.on{
+      border-color: rgba(255,107,53,.55);
+      background: linear-gradient(135deg, rgba(255,107,53,.16), rgba(247,201,72,.08));
+    }
+    .chip .e{ width:26px; text-align:center; font-size:18px; }
+    .chip .l{ font-size:14px; }
+    textarea, input{
+      width:100%;
+      box-sizing:border-box;
+      padding:12px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.03);
+      color:var(--text);
+      outline:none;
+      font-size:13px;
+    }
+    textarea{ min-height:88px; resize:vertical; }
+    textarea::placeholder, input::placeholder{ color: rgba(147,164,181,.65); }
+
+    .row{ display:flex; gap:10px; margin-top:14px; }
+    .btn{
+      width:100%;
+      padding:14px 12px;
+      border-radius:12px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.05);
+      color: #c9d5e1;
+      font-weight:800;
+      cursor:pointer;
+    }
+    .btn.primary{
+      border:none;
+      background: linear-gradient(135deg, var(--accent1), #e85d2a);
+      color:white;
+    }
+    .btn.ok{
+      border:none;
+      background: linear-gradient(135deg, var(--ok), #27ae60);
+      color:white;
+    }
+    .btn:disabled{ opacity:.45; cursor:default; }
+    .note{
+      margin-top:12px;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(247,201,72,.18);
+      background: rgba(247,201,72,.06);
+      color:#d6bf74;
+      font-size:12px; line-height:1.7;
+    }
+    .err{
+      margin-top:12px;
+      padding:12px;
+      border-radius:12px;
+      border:1px solid rgba(255,107,107,.18);
+      background: rgba(255,107,107,.08);
+      color:#ffb3b3;
+      font-size:12px; line-height:1.7;
+    }
+    .reviewbox{
+      margin-top:12px;
+      padding:14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.10);
+      background: rgba(255,255,255,.04);
+      white-space:pre-wrap;
+      line-height:1.8;
+      font-size:14px;
+    }
+    .small{ font-size:12px; color: var(--muted); margin-top:10px; line-height:1.6; }
+    a.linkbtn{
+      display:block; text-decoration:none; text-align:center;
+      padding:14px 12px;
+      border-radius:12px;
+      color:#fff;
+      background: linear-gradient(135deg, #4285f4, #3367d6);
+      font-weight:900;
+      margin-top:10px;
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="brand">
+      <div class="t">Energy Climbing Gym</div>
+      <div class="s">FEEDBACK & REVIEW</div>
+    </div>
+
+    <div class="bar" aria-hidden="true">
+      <i id="b1" class="on"></i><i id="b2"></i><i id="b3"></i>
+    </div>
+
+    <div id="app" class="card"></div>
+  </div>
+
+<script>
+  // ★ ここだけ差し替え（Place IDを入れる）
+  const GOOGLE_REVIEW_URL = "https://search.google.com/local/writereview?placeid=ChIJMRs7cu-cGGARjXtiWvPWKZw";
+
+  const GOOD_POINTS = [
+    { id:"clean", label:"施設がきれい・清潔", emoji:"✨" },
+    { id:"routes", label:"壁・課題の種類が豊富", emoji:"🧗" },
+    { id:"staff", label:"スタッフが親切・丁寧", emoji:"😊" },
+    { id:"beginner", label:"初心者にやさしい", emoji:"🔰" },
+    { id:"setting", label:"課題のセットが面白い", emoji:"🎯" },
+    { id:"price", label:"料金がリーズナブル", emoji:"💰" },
+    { id:"access", label:"アクセスが良い", emoji:"🚃" },
+    { id:"atmosphere", label:"雰囲気・居心地が良い", emoji:"☕" },
+    { id:"kids", label:"キッズにも対応している", emoji:"👧" },
+    { id:"training", label:"トレーニング設備が充実", emoji:"💪" },
+  ];
+
+  const VISIT_TYPE = [
+    { id:"first", label:"初めて" },
+    { id:"few", label:"数回目" },
+    { id:"regular", label:"常連" },
+  ];
+
+  const COMPANION = [
+    { id:"solo", label:"ひとりで" },
+    { id:"friends", label:"友人と" },
+    { id:"family", label:"家族・子どもと" },
+    { id:"couple", label:"カップルで" },
+  ];
+
+  const state = {
+    step: 1,
+    rating: 0,
+    good: new Set(),
+    visitType: "",
+    companion: "",
+    freeComment: "",
+    improve: "",
+    improveComment: "",
+    generated: "",
+    loading: false,
+    error: ""
+  };
+
+  function setBar(){
+    document.getElementById("b1").classList.toggle("on", state.step >= 1);
+    document.getElementById("b2").classList.toggle("on", state.step >= 2);
+    document.getElementById("b3").classList.toggle("on", state.step >= 3);
+  }
+
+  function htmlesc(s){
+    return (s||"").replace(/[&<>"']/g, c => ({ "&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;" }[c]));
+  }
+
+  function render(){
+    setBar();
+    const app = document.getElementById("app");
+
+    if(state.step === 1){
+      app.innerHTML = `
+        <h2>Step 1：満足度を教えてください</h2>
+        <p>運営改善に使います。Googleマップへの投稿は任意です。</p>
+        <div class="stars">
+          ${[1,2,3,4,5].map(n => `
+            <button class="starbtn ${state.rating===n?'on':''}" data-star="${n}">★${n}</button>
+          `).join("")}
+        </div>
+        <div class="row">
+          <button class="btn primary" id="toStep2" ${state.rating? "" : "disabled"}>次へ →</button>
+        </div>
+        <div class="small">※この画面では投稿は発生しません。満足度の記録だけです。</div>
+      `;
+
+      app.querySelectorAll("[data-star]").forEach(b=>{
+        b.addEventListener("click", ()=>{ state.rating = Number(b.dataset.star); render(); });
+      });
+      document.getElementById("toStep2").addEventListener("click", ()=>{
+        state.step = 2; state.error=""; render();
+      });
+      return;
+    }
+
+    if(state.step === 2){
+      const high = state.rating >= 4;
+
+      if(high){
+        app.innerHTML = `
+          <h2>Step 2：良かった点を教えてください</h2>
+          <p>あてはまるものを選んでください（複数可）。任意項目は空でもOKです。</p>
+
+          <div class="grid">
+            ${GOOD_POINTS.map(p => `
+              <div class="chip ${state.good.has(p.id)?'on':''}" data-good="${p.id}">
+                <div class="e">${state.good.has(p.id) ? "✅" : p.emoji}</div>
+                <div class="l">${htmlesc(p.label)}</div>
+              </div>
+            `).join("")}
+          </div>
+
+          <div style="margin-top:14px;">
+            <p style="margin:0 0 8px;">来店回数（任意）</p>
+            <div class="row">
+              ${VISIT_TYPE.map(v => `
+                <button class="btn ${state.visitType===v.id?'primary':''}" data-visit="${v.id}">${htmlesc(v.label)}</button>
+              `).join("")}
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <p style="margin:0 0 8px;">誰と来ましたか？（任意）</p>
+            <div class="row" style="flex-wrap:wrap;">
+              ${COMPANION.map(c => `
+                <button class="btn ${state.companion===c.id?'primary':''}" style="flex:1 0 46%;" data-comp="${c.id}">${htmlesc(c.label)}</button>
+              `).join("")}
+            </div>
+          </div>
+
+          <div style="margin-top:12px;">
+            <p style="margin:0 0 8px;">ひとこと（任意）</p>
+            <textarea id="freeComment" placeholder="例：3級の課題が楽しかった、初めてでも安心だった…">${htmlesc(state.freeComment)}</textarea>
+          </div>
+
+          <div class="row">
+            <button class="btn" id="back">← 戻る</button>
+            <button class="btn primary" id="gen" ${state.loading ? "disabled" : ""}>${state.loading ? "作成中…" : "下書きを作る ✍️"}</button>
+          </div>
+
+          ${state.error ? `<div class="err">${htmlesc(state.error)}</div>` : ""}
+
+          <div class="note">
+            💡 生成文はそのままでも、書き換えてもOKです。実感に合わない部分は削除・修正してください。
+          </div>
+
+          <a class="linkbtn" href="${GOOGLE_REVIEW_URL}" target="_blank" rel="noopener">Googleマップで投稿する（任意）→</a>
+          <div class="small">※リンクはいつでも使えます。投稿する／しないは自由です。</div>
+        `;
+
+        app.querySelectorAll("[data-good]").forEach(el=>{
+          el.addEventListener("click", ()=>{
+            const id = el.dataset.good;
+            state.good.has(id) ? state.good.delete(id) : state.good.add(id);
+            render();
+          });
+        });
+        app.querySelectorAll("[data-visit]").forEach(el=>{
+          el.addEventListener("click", ()=>{
+            const id = el.dataset.visit;
+            state.visitType = (state.visitType === id) ? "" : id;
+            render();
+          });
+        });
+        app.querySelectorAll("[data-comp]").forEach(el=>{
+          el.addEventListener("click", ()=>{
+            const id = el.dataset.comp;
+            state.companion = (state.companion === id) ? "" : id;
+            render();
+          });
+        });
+
+        document.getElementById("freeComment").addEventListener("input", (e)=> state.freeComment = e.target.value);
+
+        document.getElementById("back").addEventListener("click", ()=>{
+          state.step = 1; state.error=""; render();
+        });
+
+        document.getElementById("gen").addEventListener("click", async ()=>{
+          state.loading = true; state.error=""; render();
+          try{
+            const payload = {
+              rating: state.rating,
+              goodPoints: Array.from(state.good),
+              visitType: state.visitType,
+              companion: state.companion,
+              freeComment: state.freeComment
+            };
+            const res = await fetch("/api/generate", {
+              method:"POST",
+              headers: { "Content-Type":"application/json" },
+              body: JSON.stringify(payload)
+            });
+            const data = await res.json().catch(()=> ({}));
+            if(!res.ok) throw new Error(data?.error || ("HTTP " + res.status));
+            state.generated = data.review || "";
+            state.step = 3;
+          }catch(err){
+            state.error = "生成に失敗しました。少し時間をおいて再度お試しください。(" + (err?.message || "unknown") + ")";
+          }finally{
+            state.loading = false;
+            render();
+          }
+        });
+
+        return;
+      }
+
+      // ★1-3
+      app.innerHTML = `
+        <h2>Step 2：改善してほしい点（任意）</h2>
+        <p>いただいた内容は運営改善に活かします。書ける範囲で大丈夫です。</p>
+
+        <p style="margin:0 0 8px;">どこが気になりましたか？（任意）</p>
+        <input id="improve" placeholder="例：混み具合、説明の分かりやすさ、温度感、課題の傾向…"
+          value="${htmlesc(state.improve)}"/>
+
+        <div style="margin-top:12px;">
+          <p style="margin:0 0 8px;">自由記述（任意）</p>
+          <textarea id="improveComment" placeholder="例：もう少しこうだったら嬉しい、など">${htmlesc(state.improveComment)}</textarea>
+        </div>
+
+        <div class="row">
+          <button class="btn" id="back">← 戻る</button>
+          <button class="btn primary" id="send" ${state.loading ? "disabled" : ""}>${state.loading ? "送信中…" : "送信する"}</button>
+        </div>
+
+        ${state.error ? `<div class="err">${htmlesc(state.error)}</div>` : ""}
+
+        <a class="linkbtn" href="${GOOGLE_REVIEW_URL}" target="_blank" rel="noopener">Googleマップで投稿する（任意）→</a>
+        <div class="small">※投稿は任意です。内容はご自身の言葉で自由に編集してください。</div>
+      `;
+
+      document.getElementById("improve").addEventListener("input", (e)=> state.improve = e.target.value);
+      document.getElementById("improveComment").addEventListener("input", (e)=> state.improveComment = e.target.value);
+
+      document.getElementById("back").addEventListener("click", ()=>{
+        state.step = 1; state.error=""; render();
+      });
+
+      document.getElementById("send").addEventListener("click", async ()=>{
+        state.loading = true; state.error=""; render();
+        try{
+          const payload = {
+            rating: state.rating,
+            improve: state.improve,
+            comment: state.improveComment
+          };
+          const res = await fetch("/api/feedback", {
+            method:"POST",
+            headers: { "Content-Type":"application/json" },
+            body: JSON.stringify(payload)
+          });
+          const data = await res.json().catch(()=> ({}));
+          if(!res.ok) throw new Error(data?.error || ("HTTP " + res.status));
+          state.generated = "ご意見ありがとうございます。運営改善に活かします。";
+          state.step = 3;
+        }catch(err){
+          state.error = "送信に失敗しました。(" + (err?.message || "unknown") + ")";
+        }finally{
+          state.loading = false;
+          render();
+        }
+      });
+
+      return;
+    }
+
+    // step 3 result
+    app.innerHTML = `
+      <h2>完了しました</h2>
+      <p>内容を確認して、必要なら編集してください。</p>
+
+      <div class="reviewbox">${htmlesc(state.generated || "")}</div>
+
+      ${state.rating >= 4 ? `
+        <div class="row">
+          <button class="btn ok" id="copy">コピーする 📋</button>
+          <button class="btn" id="again">別パターン 🔄</button>
+        </div>
+      ` : `
+        <div class="row">
+          <button class="btn" id="reset">最初に戻る</button>
+        </div>
+      `}
+
+      <a class="linkbtn" href="${GOOGLE_REVIEW_URL}" target="_blank" rel="noopener">Googleマップで投稿する（任意）→</a>
+
+      <div class="note">
+        💡 投稿前に自由に書き換えてOKです。実際の感想に合わない部分は修正・削除してください。
+      </div>
+    `;
+
+    if(state.rating >= 4){
+      document.getElementById("copy").addEventListener("click", async ()=>{
+        try{
+          await navigator.clipboard.writeText(state.generated || "");
+          document.getElementById("copy").textContent = "コピーしました ✓";
+          setTimeout(()=> document.getElementById("copy").textContent = "コピーする 📋", 1600);
+        }catch{
+          alert("コピーに失敗しました。手動で選択してコピーしてください。");
+        }
+      });
+
+      document.getElementById("again").addEventListener("click", async ()=>{
+        // step2のまま再生成
+        state.step = 2;
+        render();
+        document.getElementById("gen")?.click();
+      });
+    }else{
+      document.getElementById("reset").addEventListener("click", ()=>{
+        Object.assign(state,{
+          step:1, rating:0, good:new Set(), visitType:"", companion:"",
+          freeComment:"", improve:"", improveComment:"", generated:"",
+          loading:false, error:""
+        });
+        render();
+      });
+    }
+  }
+
+  render();
+</script>
+</body>
+</html>
